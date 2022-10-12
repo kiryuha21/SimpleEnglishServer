@@ -13,6 +13,11 @@ class MyController {
     @Autowired
     var repo: UserRepository? = null
 
+    @GetMapping("/")
+    fun index(): String {
+        return "index"
+    }
+
     @PostMapping("/add")
     @ResponseBody
     fun addUser(@RequestParam username: String, @RequestParam password: String): User? {

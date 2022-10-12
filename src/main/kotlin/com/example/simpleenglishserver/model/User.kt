@@ -7,17 +7,12 @@ import javax.persistence.Id
 
 
 @Entity
-class User {
+data class User(var username: String, var password: String) {
+    constructor() : this(username="user", password = "1234") {
+        this.username += "$this.id"
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int? = null
-    var username: String? = null
-    var password: String? = null
-
-    constructor(name: String?, password: String?) {
-        this.username = name
-        this.password = password
-    }
-
-    constructor()
 }

@@ -14,6 +14,7 @@ class MyController {
     var repo: UserRepository? = null
 
     @GetMapping("/")
+    @ResponseBody
     fun index(): String {
         return "index"
     }

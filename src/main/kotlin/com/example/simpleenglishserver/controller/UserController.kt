@@ -4,6 +4,8 @@ import com.example.simpleenglishserver.model.User
 import com.example.simpleenglishserver.repo.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -14,9 +16,9 @@ class MyController {
     var repo: UserRepository? = null
 
     @GetMapping("/")
-    @ResponseBody
-    fun index(): String {
-        return "index"
+    fun blog(model: Model): String {
+        model["title"] = "Blog"
+        return "blog"
     }
 
     @PostMapping("/add")
@@ -43,13 +45,19 @@ class MyController {
         return "deleted user with id $id"
     }
 
-    @PostMapping("/get_one")
+    @PostMapping("/get_by_name")
     @ResponseBody
-    fun getOne(@RequestParam id: Int): Optional<User?>? {
+    fun getByUsername(@RequestParam username: String): User? {
+        return repo?.findUserByUsername(username)
+    }
+
+    @PostMapping("/get_by_id")
+    @ResponseBody
+    fun getById(@RequestParam id: Int): Optional<User?>? {
         return repo?.findById(id)
     }
 
-    @PostMapping("/all")
+    @GetMapping("/all")
     @ResponseBody
     fun getAll(): MutableIterable<User?>? {
         return repo?.findAll()

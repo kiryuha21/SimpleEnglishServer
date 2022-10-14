@@ -4,8 +4,6 @@ import com.example.simpleenglishserver.model.User
 import com.example.simpleenglishserver.repo.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
-import org.springframework.ui.Model
-import org.springframework.ui.set
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -16,8 +14,8 @@ class MyController {
     var repo: UserRepository? = null
 
     @GetMapping("/")
-    fun blog(model: Model): String {
-        model["title"] = "Blog"
+    @ResponseBody
+    fun index(): String {
         return "blog"
     }
 

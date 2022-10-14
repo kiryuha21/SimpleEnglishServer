@@ -7,7 +7,7 @@ import javax.persistence.Id
 
 
 @Entity
-data class User(var username: String, var password: String) {
+class User(var username: String, var password: String) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int? = null

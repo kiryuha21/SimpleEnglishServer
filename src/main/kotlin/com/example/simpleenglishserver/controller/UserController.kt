@@ -16,7 +16,7 @@ class MyController {
     @GetMapping("/")
     @ResponseBody
     fun index(): String {
-        return "blog"
+        return "welcome page"
     }
 
     @PostMapping("/add")

@@ -4,7 +4,10 @@ import javax.persistence.*
 
 
 @Entity
-class User(@Column(unique=true)var username: String, var password: String) {
+@Table(name = "User",  uniqueConstraints = [
+    UniqueConstraint(name = "uc_user_username", columnNames = ["username"])
+])
+class User(var username: String, var password: String) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int? = null

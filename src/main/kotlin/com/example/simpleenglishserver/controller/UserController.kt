@@ -1,6 +1,7 @@
 package com.example.simpleenglishserver.controller
 
 import com.example.simpleenglishserver.JasyptConfig
+import com.example.simpleenglishserver.data.Constants
 import com.example.simpleenglishserver.model.User
 import com.example.simpleenglishserver.repo.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -62,11 +63,11 @@ class MyController {
     @PostMapping("/auth")
     @ResponseBody
     fun authUser(@RequestParam username: String, @RequestParam password: String): String {
-        val user = repo?.findUserByUsername(username) ?: return ""
+        val user = repo?.findUserByUsername(username) ?: return Constants.searchFailure
         if (jasypt.decrypt(user.password) == password) {
-            return "success"
+            return Constants.success
         }
-        return "wrongPassword"
+        return Constants.wrongPassword
     }
 
     @PostMapping("/get_by_id")

@@ -33,16 +33,17 @@ class MyController {
 
     @PutMapping("/update")
     @ResponseBody
-    fun updateUser(@RequestParam stringUser: String) {
+    fun updateUser(@RequestParam stringUser: String) : String {
         val parsedUser = Json.decodeFromString<User>(stringUser)
 
-        val user = repo?.findUserByUsername(parsedUser.username)
-        if (user != null) {
-            user.name = parsedUser.name
-            user.username = parsedUser.username
-            user.password = jasypt.encrypt(parsedUser.password)
-            repo?.save(user)
-        }
+        val user = repo?.findUserByUsername(parsedUser.username) ?: return Constants.searchFailure
+
+        user.name = parsedUser.name
+        user.username = parsedUser.username
+        user.password = jasypt.encrypt(parsedUser.password)
+        repo?.save(user)
+
+        return Constants.success
     }
 
     @DeleteMapping("/destroy")

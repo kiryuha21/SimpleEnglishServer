@@ -4,6 +4,8 @@ import com.example.simpleenglishserver.JasyptConfig
 import com.example.simpleenglishserver.data.Constants
 import com.example.simpleenglishserver.model.User
 import com.example.simpleenglishserver.repo.UserRepository
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
@@ -31,11 +33,14 @@ class MyController {
 
     @PutMapping("/update")
     @ResponseBody
-    fun updateUser(@RequestParam id : Int, @RequestParam username: String, @RequestParam password: String) {
-        val user = repo?.findById(id)?.get()
+    fun updateUser(@RequestParam stringUser: String) {
+        val parsedUser = Json.decodeFromString<User>(stringUser)
+
+        val user = repo?.findUserByUsername(parsedUser.username)
         if (user != null) {
-            user.username = username
-            user.password = jasypt.encrypt(password)
+            user.name = parsedUser.name
+            user.username = parsedUser.username
+            user.password = jasypt.encrypt(parsedUser.password)
             repo?.save(user)
         }
     }
@@ -54,7 +59,7 @@ class MyController {
         return "All users were deleted"
     }
 
-    @PostMapping("/get_by_name")
+    @PostMapping("/find_by_username")
     @ResponseBody
     fun getByUsername(@RequestParam username: String): User? {
         return repo?.findUserByUsername(username)
@@ -70,7 +75,7 @@ class MyController {
         return Constants.wrongPassword
     }
 
-    @PostMapping("/get_by_id")
+    @PostMapping("/find_by_id")
     @ResponseBody
     fun getById(@RequestParam id: Int): Optional<User?>? {
         return repo?.findById(id)

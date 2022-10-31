@@ -33,10 +33,10 @@ class MyController {
 
     @PutMapping("/update")
     @ResponseBody
-    fun updateUser(@RequestParam stringUser: String) : String {
+    fun updateUser(@RequestParam id: Int, @RequestParam stringUser: String) : String {
         val parsedUser = Json.decodeFromString<User>(stringUser)
 
-        val user = repo?.findUserByUsername(parsedUser.username) ?: return Constants.searchFailure
+        val user = repo?.findById(id)?.get() ?: return Constants.searchFailure
 
         user.name = parsedUser.name
         user.username = parsedUser.username

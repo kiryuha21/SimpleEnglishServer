@@ -40,7 +40,9 @@ class MyController {
 
         user.name = parsedUser.name
         user.username = parsedUser.username
-        user.password = jasypt.encrypt(parsedUser.password)
+        if (parsedUser.password.isNotEmpty()) {
+            user.password = jasypt.encrypt(parsedUser.password)
+        }
         repo?.save(user)
 
         return Constants.success

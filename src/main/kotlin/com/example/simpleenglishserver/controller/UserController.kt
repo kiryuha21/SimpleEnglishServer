@@ -80,8 +80,8 @@ class MyController {
 
     @PostMapping("/find_by_id")
     @ResponseBody
-    fun getById(@RequestParam id: Int): Optional<User?>? {
-        return repo?.findById(id)
+    fun getById(@RequestParam id: Int): User? {
+        return repo?.findById(id)?.get()
     }
 
     @GetMapping("/all")

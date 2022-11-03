@@ -25,21 +25,23 @@ class MyController {
         return "welcome page"
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add_user")
     @ResponseBody
     fun addUser(@RequestParam username: String, @RequestParam password: String): User? {
         return repo?.save(User(username, jasypt.encrypt(password))) // insert
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update_user")
     @ResponseBody
     fun updateUser(@RequestParam id: Int, @RequestParam stringUser: String) : String {
-        val parsedUser = Json.decodeFromString<User>(stringUser)
-
         val user = repo?.findById(id)?.get() ?: return Constants.searchFailure
 
+        val parsedUser = Json.decodeFromString<User>(stringUser)
+
         user.name = parsedUser.name
-        user.username = parsedUser.username
+        if (parsedUser.username.isNotEmpty()) {
+            user.username = parsedUser.username
+        }
         if (parsedUser.password.isNotEmpty()) {
             user.password = jasypt.encrypt(parsedUser.password)
         }
@@ -48,27 +50,27 @@ class MyController {
         return Constants.success
     }
 
-    @DeleteMapping("/destroy")
+    @DeleteMapping("/destroy_user")
     @ResponseBody
     fun deleteUser(@RequestParam id : Int) : String {
         repo?.deleteById(id)
         return "deleted user with id $id"
     }
 
-    @DeleteMapping("/destroy_all")
+    @DeleteMapping("/destroy_all_users")
     @ResponseBody
     fun deleteAllUsers() : String {
         repo?.deleteAll()
         return "All users were deleted"
     }
 
-    @PostMapping("/find_by_username")
+    @PostMapping("/find_user_by_username")
     @ResponseBody
     fun getByUsername(@RequestParam username: String): User? {
         return repo?.findUserByUsername(username)
     }
 
-    @PostMapping("/auth")
+    @PostMapping("/auth_user")
     @ResponseBody
     fun authUser(@RequestParam username: String, @RequestParam password: String): String {
         val user = repo?.findUserByUsername(username) ?: return Constants.searchFailure
@@ -78,13 +80,13 @@ class MyController {
         return Constants.wrongPassword
     }
 
-    @PostMapping("/find_by_id")
+    @PostMapping("/find_user_by_id")
     @ResponseBody
     fun getById(@RequestParam id: Int): User? {
         return repo?.findById(id)?.get()
     }
 
-    @GetMapping("/all")
+    @GetMapping("/get_all_users")
     @ResponseBody
     fun getAll(): MutableIterable<User?>? {
         return repo?.findAll()

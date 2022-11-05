@@ -39,8 +39,12 @@ class MyController {
         val parsedUser = Json.decodeFromString<User>(stringUser)
 
         user.name = parsedUser.name
-        user.XP = parsedUser.XP
-        user.completedTasks = parsedUser.completedTasks
+        if (parsedUser.XP != 0) {
+            user.XP = parsedUser.XP
+        }
+        if (parsedUser.completedTasks.isNotEmpty()) {
+            user.completedTasks = parsedUser.completedTasks
+        }
         if (parsedUser.username.isNotEmpty()) {
             user.username = parsedUser.username
         }

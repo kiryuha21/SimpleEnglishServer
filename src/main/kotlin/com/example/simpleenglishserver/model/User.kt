@@ -14,7 +14,7 @@ import javax.persistence.*
 @TypeDef(name = "int-array", typeClass = IntArrayType::class)
 class User(@Column var username: String,
            @Column var password: String,
-           @Column var XP: Int,
+           @Column var XP: Int?,
            @Column(columnDefinition = "integer[]") @Type(type="int-array") var completedTasks: IntArray = intArrayOf()) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

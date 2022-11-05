@@ -1,25 +1,27 @@
 package com.example.simpleenglishserver.model
 
+import com.vladmihalcea.hibernate.type.array.IntArrayType
 import kotlinx.serialization.Serializable
+import org.hibernate.annotations.Type
+import org.hibernate.annotations.TypeDef
 import javax.persistence.*
-
 
 @Serializable
 @Entity
 @Table(name = "User",  uniqueConstraints = [
     UniqueConstraint(name = "uc_user_username", columnNames = ["username"])
 ])
-class User(@Column var username: String, @Column var password: String) {
+@TypeDef(name = "int-array", typeClass = IntArrayType::class)
+class User(@Column var username: String,
+           @Column var password: String,
+           @Column var XP: Int = 0,
+           @Column(columnDefinition = "integer[]") @Type(type="int-array") var completedTasks: IntArray = intArrayOf()) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int? = null
 
     @Column(nullable = true)
     var name: String? = null
-
-    constructor(username: String, password: String, name : String) : this(username, password) {
-        this.name = name
-    }
 
     constructor() : this(username="-", password = "-")
 }

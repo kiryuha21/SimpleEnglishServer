@@ -16,8 +16,10 @@ class TaskContentController {
 
     @PostMapping("add_task_content")
     @ResponseBody
-    fun addTaskContent(@RequestParam text: String): TaskContent? {
-        return repo?.save(TaskContent(text))
+    fun addTaskContent(@RequestParam text: String,
+                       @RequestParam variants: Array<Array<String>>,
+                       @RequestParam correctAnswers: Array<String>): TaskContent? {
+        return repo?.save(TaskContent(text, variants, correctAnswers))
     }
 
     @DeleteMapping("remove_task_content_by_id")
@@ -35,6 +37,12 @@ class TaskContentController {
         val parsedTask = Json.decodeFromString<TaskContent>(stringTask)
         if (!parsedTask.taskText.isNullOrEmpty()) {
             task.taskText = parsedTask.taskText
+        }
+        if (!parsedTask.taskVariants.isNullOrEmpty()) {
+            task.taskVariants = parsedTask.taskVariants
+        }
+        if (!parsedTask.correctVariants.isNullOrEmpty()) {
+            task.correctVariants = parsedTask.correctVariants
         }
         repo?.save(task)
 

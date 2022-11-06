@@ -19,21 +19,21 @@ class TaskHeaderController {
     @Autowired
     var repo: TaskHeaderRepository? = null
 
-    @PostMapping("add_task_header")
+    @PostMapping("/add_task_header")
     @ResponseBody
     fun addTaskHeader(@RequestParam stringTaskHeader: String): TaskHeader? {
         val taskHeader = Json.decodeFromString<TaskHeader>(stringTaskHeader)
         return repo?.save(taskHeader)
     }
 
-    @DeleteMapping("remove_task_header_by_id")
+    @DeleteMapping("/remove_task_header_by_id")
     @ResponseBody
     fun removeTaskHeaderById(@RequestParam id: Int): String {
         repo?.deleteById(id)
         return "deleted task header with id $id"
     }
 
-    @PutMapping("update_task_header_by_id")
+    @PutMapping("/update_task_header_by_id")
     @ResponseBody
     fun updateTaskHeaderById(@RequestParam id: Int, @RequestParam stringTask: String): String {
         val task = repo?.findById(id)?.get() ?: return Constants.searchFailure
@@ -53,7 +53,7 @@ class TaskHeaderController {
         return Constants.success
     }
 
-    @PostMapping("find_task_headers_by_type")
+    @PostMapping("/find_task_headers_by_type")
     @ResponseBody
     fun findTypedTaskHeaders(@RequestParam type: String): Iterable<TaskHeader?>? {
         return repo?.findTaskHeadersByTaskTypeAndContentNotNull(type)

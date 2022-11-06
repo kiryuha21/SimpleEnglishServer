@@ -14,7 +14,7 @@ class TaskContentController {
     @Autowired
     var repo: TaskContentRepository? = null
 
-    @PostMapping("add_task_content")
+    @PostMapping("/add_task_content")
     @ResponseBody
     fun addTaskContent(@RequestParam text: String,
                        @RequestParam variants: Array<Array<String>>,
@@ -22,14 +22,14 @@ class TaskContentController {
         return repo?.save(TaskContent(text, variants, correctAnswers))
     }
 
-    @DeleteMapping("remove_task_content_by_id")
+    @DeleteMapping("/remove_task_content_by_id")
     @ResponseBody
     fun removeTaskContentById(@RequestParam id: Int): String {
         repo?.deleteById(id)
         return "deleted task content with id $id"
     }
 
-    @PutMapping("update_task_content_by_id")
+    @PutMapping("/update_task_content_by_id")
     @ResponseBody
     fun updateTaskContentById(@RequestParam id: Int, @RequestParam stringTask: String): String {
         val task = repo?.findById(id)?.get() ?: return Constants.searchFailure

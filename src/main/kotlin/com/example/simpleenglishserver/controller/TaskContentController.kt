@@ -18,8 +18,10 @@ class TaskContentController {
     @ResponseBody
     fun addTaskContent(@RequestParam text: String,
                        @RequestParam variants: Array<Array<String?>?>?,
-                       @RequestParam correctAnswers: Array<String?>?): TaskContent? {
-        return repo?.save(TaskContent(text, variants, correctAnswers))
+                       @RequestParam correctAnswers: Array<String?>?,
+                       @RequestParam questions: Array<String?>?,
+                       @RequestParam musicURL: String?): TaskContent? {
+        return repo?.save(TaskContent(text, variants, correctAnswers, questions, musicURL))
     }
 
     @DeleteMapping("/remove_task_content_by_id")
@@ -43,6 +45,12 @@ class TaskContentController {
         }
         if (!parsedTask.correctVariants.isNullOrEmpty()) {
             task.correctVariants = parsedTask.correctVariants
+        }
+        if (!parsedTask.questions.isNullOrEmpty()) {
+            task.questions = parsedTask.questions
+        }
+        if (!parsedTask.musicURL.isNullOrEmpty()) {
+            task.musicURL = parsedTask.musicURL
         }
         repo?.save(task)
 

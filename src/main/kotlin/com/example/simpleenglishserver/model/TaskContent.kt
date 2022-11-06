@@ -28,8 +28,21 @@ class TaskContent(@Column(columnDefinition="text") var taskText: String?,
                       columnDefinition = "text[]",
                       name = "correct_variants"
                   )
-                  var correctVariants: Array<String?>?) {
-    constructor() : this(taskText="", taskVariants=arrayOf(arrayOf<String?>()), correctVariants = arrayOf<String?>())
+                  var correctVariants: Array<String?>?,
+                  @Type(type = "string-array")
+                  @Column(
+                      columnDefinition = "text[]",
+                      name = "questions"
+                  )
+                  var questions: Array<String?>?,
+                  @Column(columnDefinition = "text")
+                  var musicURL: String?) {
+    constructor() : this(taskText="",
+                         taskVariants=arrayOf(arrayOf<String?>()),
+                         correctVariants = arrayOf<String?>(),
+                         questions = arrayOf<String?>(),
+                         musicURL = ""
+    )
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

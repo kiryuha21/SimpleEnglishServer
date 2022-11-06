@@ -22,14 +22,14 @@ class TaskContent(@Column(columnDefinition="text") var taskText: String?,
                       name = "task_variants",
                       columnDefinition = "text[][]"
                   )
-                  var taskVariants: Array<Array<String>>?,
+                  var taskVariants: Array<Array<String?>?>?,
                   @Type(type = "string-array")
                   @Column(
                       columnDefinition = "text[]",
                       name = "correct_variants"
                   )
-                  var correctVariants: Array<String>?) {
-    constructor() : this(taskText="", taskVariants=arrayOf(arrayOf<String>()), correctVariants = arrayOf<String>())
+                  var correctVariants: Array<String?>?) {
+    constructor() : this(taskText="", taskVariants=arrayOf(arrayOf<String?>()), correctVariants = arrayOf<String?>())
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

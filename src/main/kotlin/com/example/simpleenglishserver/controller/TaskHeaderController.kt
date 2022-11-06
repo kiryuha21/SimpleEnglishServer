@@ -59,6 +59,13 @@ class TaskHeaderController {
         return repo?.findTaskHeadersByTaskTypeAndContentNotNull(type)
     }
 
+    @DeleteMapping("/delete_task_header_by_id")
+    @ResponseBody
+    fun deleteTaskHeaderById(@RequestParam id: Int): String {
+        repo?.deleteById(id)
+        return "Deleted task header with id $id"
+    }
+
     @GetMapping("/get_all_task_headers")
     @ResponseBody
     fun getAllTaskHeaders(): Iterable<TaskHeader?>? {

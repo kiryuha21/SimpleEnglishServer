@@ -17,8 +17,8 @@ class TaskContentController {
     @PostMapping("/add_task_content")
     @ResponseBody
     fun addTaskContent(@RequestParam text: String,
-                       @RequestParam variants: Array<Array<String>>,
-                       @RequestParam correctAnswers: Array<String>): TaskContent? {
+                       @RequestParam variants: Array<Array<String?>?>?,
+                       @RequestParam correctAnswers: Array<String?>?): TaskContent? {
         return repo?.save(TaskContent(text, variants, correctAnswers))
     }
 

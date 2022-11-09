@@ -66,6 +66,12 @@ class TaskHeaderController {
         return "Deleted task header with id $id"
     }
 
+    @PostMapping("/get_noticeable_headers")
+    @ResponseBody
+    fun getNoticableHeaders(id: Int): Iterable<Pair<String?, String?>?>? {
+        return repo?.getUserActiveNotifications(id)
+    }
+
     @GetMapping("/get_all_task_headers")
     @ResponseBody
     fun getAllTaskHeaders(): Iterable<TaskHeader?>? {

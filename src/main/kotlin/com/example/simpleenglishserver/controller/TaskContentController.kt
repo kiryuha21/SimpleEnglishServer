@@ -8,6 +8,7 @@ import kotlinx.serialization.json.Json
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
+import java.sql.Timestamp
 
 @Controller
 class TaskContentController {
@@ -20,8 +21,10 @@ class TaskContentController {
                        @RequestParam variants: Array<Array<String?>?>?,
                        @RequestParam correctAnswers: Array<String?>?,
                        @RequestParam questions: Array<String?>?,
-                       @RequestParam musicURL: String?): TaskContent? {
-        return repo?.save(TaskContent(text, variants, correctAnswers, questions, musicURL))
+                       @RequestParam musicURL: String?,
+                       @RequestParam memLastUpdate: Timestamp?,
+                       @RequestParam nextNoticeIn: String?): TaskContent? {
+        return repo?.save(TaskContent(text, variants, correctAnswers, questions, musicURL, memLastUpdate, nextNoticeIn))
     }
 
     @DeleteMapping("/remove_task_content_by_id")
@@ -51,6 +54,12 @@ class TaskContentController {
         }
         if (!parsedTask.musicURL.isNullOrEmpty()) {
             task.musicURL = parsedTask.musicURL
+        }
+        if (parsedTask.memLastUpdate != null) {
+            task.memLastUpdate = parsedTask.memLastUpdate
+        }
+        if (!parsedTask.nextNoticeIn.isNullOrEmpty()) {
+            task.nextNoticeIn = parsedTask.nextNoticeIn
         }
         repo?.save(task)
 

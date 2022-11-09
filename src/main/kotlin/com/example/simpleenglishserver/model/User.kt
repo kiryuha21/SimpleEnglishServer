@@ -15,7 +15,8 @@ import javax.persistence.*
 class User(@Column var username: String,
            @Column var password: String,
            @Column var XP: Int?,
-           @Column(columnDefinition = "integer[]") @Type(type="int-array") var completedTasks: IntArray = intArrayOf()) {
+           @Column(columnDefinition = "integer[]") @Type(type="int-array") var completedTasks: IntArray = intArrayOf(),
+           @Column(columnDefinition = "integer[]") @Type(type = "int-array") var startedMemories: IntArray = intArrayOf()) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int? = null

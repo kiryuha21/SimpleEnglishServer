@@ -45,6 +45,9 @@ class MyController {
         if (parsedUser.completedTasks.isNotEmpty()) {
             user.completedTasks = parsedUser.completedTasks
         }
+        if (parsedUser.startedMemories.isNotEmpty()) {
+            user.startedMemories = parsedUser.startedMemories
+        }
         if (parsedUser.username.isNotEmpty()) {
             user.username = parsedUser.username
         }

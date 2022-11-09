@@ -1,10 +1,28 @@
 package com.example.simpleenglishserver.model
 
 import com.vladmihalcea.hibernate.type.array.StringArrayType
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import org.hibernate.annotations.TypeDef
 import org.hibernate.annotations.Type
+import java.sql.Timestamp
 import javax.persistence.*
+
+object TimestampSerializer : KSerializer<Timestamp> {
+    override val descriptor = PrimitiveSerialDescriptor("Timestamp", PrimitiveKind.STRING)
+
+    override fun deserialize(decoder: Decoder): Timestamp {
+        return Timestamp.valueOf(decoder.decodeString())
+    }
+
+    override fun serialize(encoder: Encoder, value: Timestamp) {
+        encoder.encodeString(value.toString())
+    }
+}
 
 @Serializable
 @Entity
@@ -36,13 +54,19 @@ class TaskContent(@Column(columnDefinition="text") var taskText: String?,
                   )
                   var questions: Array<String?>?,
                   @Column(columnDefinition = "text")
-                  var musicURL: String?) {
+                  var musicURL: String?,
+                  @Column(columnDefinition = "timestamp")
+                  @Serializable(with = TimestampSerializer::class)
+                  var memLastUpdate: Timestamp?,
+                  @Column(columnDefinition = "interval")
+                  var nextNoticeIn: String?) {
     constructor() : this(taskText="",
                          taskVariants=arrayOf(arrayOf<String?>()),
                          correctVariants = arrayOf<String?>(),
                          questions = arrayOf<String?>(),
-                         musicURL = ""
-    )
+                         musicURL = "",
+                         memLastUpdate = null,
+                         nextNoticeIn = null)
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

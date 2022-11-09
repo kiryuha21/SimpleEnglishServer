@@ -68,8 +68,8 @@ class TaskHeaderController {
 
     @PostMapping("/get_noticeable_headers")
     @ResponseBody
-    fun getNoticableHeaders(id: Int): Iterable<Pair<String?, String?>?>? {
-        return repo?.getUserActiveNotifications(id)
+    fun getNoticeableHeaders(@RequestParam id: Int): Iterable<TaskHeader?>? {
+        return repo?.findTaskHeadersByIdIn(repo?.getUserActiveNotifications(id))
     }
 
     @GetMapping("/get_all_task_headers")

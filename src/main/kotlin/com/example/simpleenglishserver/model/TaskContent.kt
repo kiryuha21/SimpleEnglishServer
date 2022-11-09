@@ -58,7 +58,7 @@ class TaskContent(@Column(columnDefinition="text") var taskText: String?,
                   @Column(columnDefinition = "timestamp")
                   @Serializable(with = TimestampSerializer::class)
                   var memLastUpdate: Timestamp?,
-                  @Column(columnDefinition = "interval")
+                  @Column(columnDefinition = "text")
                   var nextNoticeIn: String?) {
     constructor() : this(taskText="",
                          taskVariants=arrayOf(arrayOf<String?>()),

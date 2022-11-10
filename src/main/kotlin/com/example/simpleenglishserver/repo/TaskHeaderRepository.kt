@@ -14,6 +14,6 @@ interface TaskHeaderRepository : CrudRepository<TaskHeader?, Int?> {
             "where \"user\".id = ?1 and\n" +
             "header.id = any(\"user\".started_memories) and " +
             "header.task_content_id = content.id and " +
-            "content.mem_last_update + (content.next_notice_in)\\:\\:interval < current_timestamp", nativeQuery = true)
+            "content.mem_last_update - interval '3 hours' + content.next_notice_in\\:\\:interval < current_timestamp", nativeQuery = true)
     fun getUserActiveNotifications(id: Int): ArrayList<Int>
 }

@@ -1,5 +1,6 @@
 package com.example.simpleenglishserver.model
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.vladmihalcea.hibernate.type.array.StringArrayType
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -56,6 +57,7 @@ class TaskContent(@Column(columnDefinition="text") var taskText: String?,
                   @Column(columnDefinition = "text")
                   var musicURL: String?,
                   @Column(columnDefinition = "timestamp")
+                  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = JsonFormat.DEFAULT_TIMEZONE)
                   @Serializable(with = TimestampSerializer::class)
                   var memLastUpdate: Timestamp?,
                   @Column(columnDefinition = "text")

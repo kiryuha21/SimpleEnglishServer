@@ -53,6 +53,12 @@ class TaskHeaderController {
         return Constants.success
     }
 
+    @PostMapping("/user_memorising")
+    @ResponseBody
+    fun getUserMemorising(@RequestParam id: Int): Iterable<Any>? {
+        return repo?.getUserMemorising(id)
+    }
+
     @PostMapping("/find_task_headers_by_type")
     @ResponseBody
     fun findTypedTaskHeaders(@RequestParam type: String): Iterable<TaskHeader?>? {

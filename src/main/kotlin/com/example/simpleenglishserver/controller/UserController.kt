@@ -27,8 +27,11 @@ class MyController {
 
     @PostMapping("/add_user")
     @ResponseBody
-    fun addUser(@RequestParam username: String, @RequestParam password: String, @RequestParam secretWord: String): User? {
-        return repo?.save(User(username, jasypt.encrypt(password), secretWord, 0)) // insert
+    fun addUser(@RequestParam username: String,
+                @RequestParam password: String,
+                @RequestParam secretWord: String,
+                @RequestParam secretWordType: String): User? {
+        return repo?.save(User(username, jasypt.encrypt(password), secretWord, secretWordType, 0)) // insert
     }
 
     @PutMapping("/update_user")
